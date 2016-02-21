@@ -1,7 +1,7 @@
 public class Driver {
  
   public static void main(String[] args) {
-	MusicLinkedList list = new MusicLinkedList(2.0, 1);
+	MusicLinkedList list = new MusicLinkedList(2.0, 2);
 //	MusicLinkedList list2 = new MusicLinkedList(3.5, 3);
  
 

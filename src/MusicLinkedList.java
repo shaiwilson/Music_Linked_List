@@ -1,17 +1,15 @@
 import java.util.List;
 import java.util.Iterator;
-import java.util.Iterator;
-
 
 public class MusicLinkedList implements MusicList
 {
 
 	/*----------------------------------------------------- */
-	/* Private Data Members -- LinkedList                   */
+	/* Private Data Members -- Node                   */
 	/*----------------------------------------------------- */
 
-	private LinkedList head = null;
-	private LinkedList tail;
+	private Node head = null;
+	private Node tail;
 	private int length = 0;
 	int numChannels = 0;
 	int numSamples = 0;
@@ -19,23 +17,26 @@ public class MusicLinkedList implements MusicList
 	MusicLinkedList SoundList;
 	
 	/*----------------------------------------------------- */
-	/* Constructor -- LinkedList                            */
+	/* Constructor -- Node                            */
 	/*----------------------------------------------------- */
 
 	public MusicLinkedList(int channels) 
 	{
 		numChannels = channels;
+		System.out.println("numChannels : " + numChannels);
+		
 	}
 	
 	public MusicLinkedList(double sampleRate, int numChannels) 
 	{
 		this.sampleRate = sampleRate;
 		this.numChannels = numChannels;
+		System.out.println("numChannels : " + numChannels);
 		
 	}
 	
 	/*----------------------------------------------------- */
-	/* Public Methods -- LinkedList                         */
+	/* Public Methods -- Node                         */
 	/*----------------------------------------------------- */
 
 	public void clear() 
@@ -52,7 +53,7 @@ public class MusicLinkedList implements MusicList
 
 	public float getNextSample()
 	{
-		LinkedList tmp = head.nextSample;
+		Node tmp = head.nextSample;
 		for (int i = 0; i < length; i++)
 		{
 			tmp = tmp.nextSample;
@@ -60,9 +61,9 @@ public class MusicLinkedList implements MusicList
 		return tmp.samples;
 	}
 	
-	public LinkedList getNextChannel()
+	public Node getNextChannel()
 	{
-		LinkedList tmp = head.nextChannel;
+		Node tmp = head.nextChannel;
 		for (int i = 0; i < length; i++)
 		{
 			tmp = tmp.nextChannel;
@@ -152,12 +153,12 @@ public class MusicLinkedList implements MusicList
 		System.out.println("sample is : " + sample);
 		if (head == null)
 		{
-			head = new LinkedList(sample, null, null);
+			head = new Node(sample, null, null);
 			tail = head;
 		}
 		else
 		{
-			tail.setNextSample(new LinkedList(sample, null, null));
+			tail.setNextSample(new Node(sample, null, null));
 			tail = tail.nextSample();
 		}
 		
@@ -173,14 +174,14 @@ public class MusicLinkedList implements MusicList
 	
 	public void addSample(float sample[]) {
 		
-		LinkedList temp1 = new LinkedList(sample[0], null, null);
-		LinkedList temp2 = temp1;
+		Node temp1 = new Node(sample[0], null, null);
+		Node temp2 = temp1;
 		
 			for (int  i = 0; i < numChannels; i++)
 			{
-//				current.setNextChannel(new LinkedList(samples[i], null, null));
+//				current.setNextChannel(new Node(samples[i], null, null));
 //				current = current.getNextSample();
-				temp2.setNextChannel(new LinkedList(sample[i], null, null));
+				temp2.setNextChannel(new Node(sample[i], null, null));
 				temp2 = temp2.nextChannel();
 			}
 			if (head == null){
@@ -188,7 +189,7 @@ public class MusicLinkedList implements MusicList
 				tail = head;
 				numSamples++;
 			} else {
-				LinkedList temp3 = temp1;
+				Node temp3 = temp1;
 				for (int i=0; i < numChannels;i++)
 				{
 					tail.setNextSample(temp3);
@@ -269,46 +270,46 @@ public class MusicLinkedList implements MusicList
 	/*----------------------------------------------------- */
 
 
-	public class LinkedList{
+	public class Node{
 
 		/*----------------------------------------------------- */
 		/*  Private Data Members -- Link                        */ 
 		/*----------------------------------------------------- */
 
 		private float samples;
-		private LinkedList nextSample;
-		private LinkedList nextChannel;
+		private Node nextSample;
+		private Node nextChannel;
 
 		/*----------------------------------------------------- */
 		/*  Constructors -- Link                                */ 
 		/*----------------------------------------------------- */
 
-		public LinkedList(Float samples, LinkedList nextSample, LinkedList nextChannel) {
+		public Node(Float samples, Node nextSample, Node nextChannel) {
 			this.samples = samples;
 			this.nextSample = nextSample;
 			this.nextChannel = nextChannel;
 			
 		}
 //
-//		public LinkedList(double d, int i) { }
+//		public Node(double d, int i) { }
 
 		/*----------------------------------------------------- */
 		/*  Access Methods -- Link                              */ 
 		/*----------------------------------------------------- */
 
-		public LinkedList nextSample() {
+		public Node nextSample() {
 			return nextSample; 
 		}
 		
-		public LinkedList nextChannel(){
+		public Node nextChannel(){
 			return nextChannel; 
 		}
 
-		public void setNextSample(LinkedList nextelem) {
+		public void setNextSample(Node nextelem) {
 			nextSample = nextelem;
 		}
 		
-		public void setNextChannel(LinkedList nextelem) {
+		public void setNextChannel(Node nextelem) {
 			nextChannel = nextelem;
 		}
 	}
@@ -323,8 +324,8 @@ public class MusicLinkedList implements MusicList
 		/*  Private Data Members -- InnerIterator               */ 
 		/*----------------------------------------------------- */
 
-		private LinkedList current;
-		private LinkedList temp;
+		private Node current;
+		private Node temp;
 		
 		/*----------------------------------------------------- */
 		/*  Constructor -- InnerIterator                        */ 
@@ -371,8 +372,8 @@ public class MusicLinkedList implements MusicList
 		/*  Private Data Members -- InnerIterator               */ 
 		/*----------------------------------------------------- */
 
-		private LinkedList current;
-		private LinkedList temp;
+		private Node current;
+		private Node temp;
 		
 		/*----------------------------------------------------- */
 		/*  Constructor -- InnerIterator                        */ 
