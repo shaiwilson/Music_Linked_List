@@ -10,7 +10,7 @@ public class MusicLinkedList implements MusicList
 
 	private Node head = null;
 	private Node tail;
-	private int length = 0;
+	private int length;
 	int numChannels = 0;
 	int numSamples = 0;
 	double sampleRate = 0;
@@ -71,17 +71,6 @@ public class MusicLinkedList implements MusicList
 		return tmp.nextChannel();
 	}
 
-
-	public InnerIterator listIterator() 
-	{
-		return new InnerIterator(0);
-	}
-
-
-	public IteratorMulti listIterator(int nextChannel) 
-	{
-		return new IteratorMulti(nextChannel);
-	}
 
 	public int getNumChannels() {
 		return numChannels;
@@ -154,12 +143,15 @@ public class MusicLinkedList implements MusicList
 		if (head == null)
 		{
 			head = new Node(sample, null, null);
+			System.out.println("head sample is : " + head.samples);
+//			head.setNextSample(new Link());
 			tail = head;
 		}
 		else
 		{
 			tail.setNextSample(new Node(sample, null, null));
 			tail = tail.nextSample();
+			System.out.println("tail is : " + tail.samples);
 		}
 		
 		numSamples++;
@@ -215,8 +207,8 @@ public class MusicLinkedList implements MusicList
 	 * @param channel The channel to traverse
 	 * @return the iterator to traverse the list
 	 */
-	public Iterator<Float> iterator(int channel) {
-		return null;
+	public Iterator<Float> iterator1(int channel) {
+		return new InnerIterator(0);
 	}
 	
 	/**
@@ -318,7 +310,8 @@ public class MusicLinkedList implements MusicList
 	/* Nested class -- InnerIterator                        */
 	/*----------------------------------------------------- */
 
-	private class InnerIterator implements Iterator<Float>{
+
+	public class InnerIterator implements Iterator<Float>{
 
 		/*----------------------------------------------------- */
 		/*  Private Data Members -- InnerIterator               */ 
@@ -339,6 +332,8 @@ public class MusicLinkedList implements MusicList
 			{
 				temp = current.nextChannel();
 			}
+			
+			current = current.nextSample();
 		}
 
 		/*----------------------------------------------------- */
@@ -361,52 +356,13 @@ public class MusicLinkedList implements MusicList
 		}
 
 	}
-	
-	/*----------------------------------------------------- */
-	/* Nested class -- IteratorMulti                       */
-	/*----------------------------------------------------- */
 
-	private class IteratorMulti implements Iterator<float[]>{
-
-		/*----------------------------------------------------- */
-		/*  Private Data Members -- InnerIterator               */ 
-		/*----------------------------------------------------- */
-
-		private Node current;
-		private Node temp;
-		
-		/*----------------------------------------------------- */
-		/*  Constructor -- InnerIterator                        */ 
-		/*----------------------------------------------------- */
-
-		public IteratorMulti(int index) 
-		{
-			current = head;
-			
-			for (int i = 0; i < index; i++)
-			{
-				temp = current.nextChannel();	
-			}
-		}
-
-		/*----------------------------------------------------- */
-		/* Public Methods -- InnerIterator                      */
-		/*----------------------------------------------------- */
-		
-		@Override
-		public float[] next() 
-		{
-			temp = current;
-			
-			current = current.nextSample();
-			return temp.samples;
-		}
-
-		public boolean hasNext()
-		{
-			return current != null && current.nextChannel != null;
-		}
+	@Override
+	public Iterator<Float> iterator(int channel) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 }
 
 
