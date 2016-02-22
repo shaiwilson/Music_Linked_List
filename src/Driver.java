@@ -10,8 +10,10 @@ public class Driver {
     list.addSample(7);
     list.addSample(4);
     
-    Iterator<Float> itr =  list.iterator(1);
+    Iterator<Float> itr =  list.iterator(2);
+    System.out.println("does this work before while");
 	  while(itr.hasNext()) {
+	  System.out.println("does this work after while");  
 	  float curr =  itr.next();
 	  System.out.println(curr);
 	}

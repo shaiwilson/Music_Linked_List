@@ -207,7 +207,8 @@ public class MusicLinkedList implements MusicList
 	 * @param channel The channel to traverse
 	 * @return the iterator to traverse the list
 	 */
-	public Iterator<Float> iterator1(int channel) {
+	
+	public Iterator<Float> iterator(int channel) {
 		return new InnerIterator(0);
 	}
 	
@@ -355,12 +356,6 @@ public class MusicLinkedList implements MusicList
 			return current != null && current.nextSample != null;
 		}
 
-	}
-
-	@Override
-	public Iterator<Float> iterator(int channel) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
