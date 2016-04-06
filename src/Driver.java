@@ -1,4 +1,3 @@
-
 import java.util.Iterator;
 
 public class Driver {
@@ -9,6 +8,7 @@ public class Driver {
  
     list.addSample(7);
     list.addSample(4);
+    list.addSample(8);
     
     Iterator<Float> itr =  list.iterator(2);
     System.out.println("does this work before while");

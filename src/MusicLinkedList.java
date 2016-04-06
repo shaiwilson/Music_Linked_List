@@ -1,4 +1,4 @@
-import java.util.List;
+//import java.util.List;
 import java.util.Iterator;
 
 public class MusicLinkedList implements MusicList
@@ -140,18 +140,16 @@ public class MusicLinkedList implements MusicList
 	public void addSample(float sample) {
 		
 		System.out.println("sample is : " + sample);
+		
 		if (head == null)
 		{
 			head = new Node(sample, null, null);
-			System.out.println("head sample is : " + head.samples);
-//			head.setNextSample(new Link());
 			tail = head;
 		}
 		else
 		{
 			tail.setNextSample(new Node(sample, null, null));
 			tail = tail.nextSample();
-			System.out.println("tail is : " + tail.samples);
 		}
 		
 		numSamples++;
@@ -171,8 +169,6 @@ public class MusicLinkedList implements MusicList
 		
 			for (int  i = 0; i < numChannels; i++)
 			{
-//				current.setNextChannel(new Node(samples[i], null, null));
-//				current = current.getNextSample();
 				temp2.setNextChannel(new Node(sample[i], null, null));
 				temp2 = temp2.nextChannel();
 			}
@@ -181,16 +177,19 @@ public class MusicLinkedList implements MusicList
 				tail = head;
 				numSamples++;
 			} else {
-				Node temp3 = temp1;
-				for (int i=0; i < numChannels;i++)
+				if (numChannels == sample.length)
 				{
-					tail.setNextSample(temp3);
-					tail = tail.nextChannel();
-					temp3 = temp3.nextChannel();
+					Node temp3 = temp1;
+					for (int i=0; i < numChannels;i++)
+					{
+						tail.setNextSample(temp3);
+						tail = tail.nextChannel();
+						temp3 = temp3.nextChannel();
+					}
+					tail = temp1;
+					numSamples++;
 				}
-				tail = temp1;
-				numSamples++;
-			
+		
 			}
 	}
 	
@@ -198,9 +197,11 @@ public class MusicLinkedList implements MusicList
 	 * Return an iterator that traverses the entire sample, returning an array floats (one for each channel)
 	 * @return iterator
 	 */
+	
 	public Iterator<float[]> iterator() {
+		
 		return null;
-	}
+}
 	
 	/**
 	 * Return an iterator that traverses a single channel of the list
@@ -209,7 +210,10 @@ public class MusicLinkedList implements MusicList
 	 */
 	
 	public Iterator<Float> iterator(int channel) {
-		return new InnerIterator(0);
+	
+		
+		return new InnerIterator(channel);
+		
 	}
 	
 	/**
@@ -277,7 +281,7 @@ public class MusicLinkedList implements MusicList
 		/*  Constructors -- Link                                */ 
 		/*----------------------------------------------------- */
 
-		public Node(Float samples, Node nextSample, Node nextChannel) {
+		public Node(float samples, Node nextSample, Node nextChannel) {
 			this.samples = samples;
 			this.nextSample = nextSample;
 			this.nextChannel = nextChannel;
@@ -320,6 +324,7 @@ public class MusicLinkedList implements MusicList
 
 		private Node current;
 		private Node temp;
+		private Node head;
 		
 		/*----------------------------------------------------- */
 		/*  Constructor -- InnerIterator                        */ 
@@ -327,14 +332,19 @@ public class MusicLinkedList implements MusicList
 
 		public InnerIterator(int index) 
 		{
-			current = head;
 			
-			for (int i = 0; i < index; i++)
+			current = head;
+			if (current.nextChannel() != null)
 			{
-				temp = current.nextChannel();
+				for (int i = 0; i < index; i++)
+				{
+				
+					current = current.nextChannel();
+				}
+				
+				current = current.nextSample();
 			}
 			
-			current = current.nextSample();
 		}
 
 		/*----------------------------------------------------- */
@@ -345,7 +355,7 @@ public class MusicLinkedList implements MusicList
 		public Float next() 
 		{
 
-			current = temp;
+			temp = current;
 			current = current.nextSample();
 			return temp.samples;
 			
@@ -353,11 +363,56 @@ public class MusicLinkedList implements MusicList
 
 		public boolean hasNext()
 		{
-			return current != null && current.nextSample != null;
+			return temp != null && temp.nextSample != null;
 		}
+		
+		
+	public class IteratorMutilC implements Iterator<float []>{
 
+			/*----------------------------------------------------- */
+			/*  Private Data Members -- OuterIterator               */ 
+			/*----------------------------------------------------- */
+
+			private Node current;
+			private Node temp;
+			
+			/*----------------------------------------------------- */
+			/*  Constructor -- OuterIterator                        */ 
+			/*----------------------------------------------------- */
+
+			public IteratorMutilC()
+			{
+				current = head;
+			}
+			
+
+			/*----------------------------------------------------- */
+			/* Public Methods -- OuterIterator                      */
+			/*----------------------------------------------------- */
+			
+			@Override
+			public float[] next()
+			{
+				temp = current;
+				float[] result_arr = new float[numChannels];
+				
+				for (int i=0;i<numChannels;i++)
+				{
+					result_arr[i] = temp.samples;
+					temp = temp.nextChannel();
+				}
+				
+				temp = current.nextSample();
+				return result_arr;
+			}
+
+			public boolean hasNext()
+			{
+				return temp != null && temp.nextSample != null;
+			}
+			
+		}
 	}
-
 }
 
 
