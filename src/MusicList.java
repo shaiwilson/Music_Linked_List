@@ -13,7 +13,7 @@ public interface MusicList {
 	 * Returns the sample rate, in samples per second
 	 * @return The sample rate, in samples per second
 	 */
-	public float getSampleRate();
+	public double getSampleRate();
 	
 	
 	/**

@@ -12,8 +12,7 @@ public class Driver {
     
     Iterator<float[]> itr =  list.iterator();
     float[] curr;
-	while(itr.hasNext()) {
-	System.out.println("does this work after while");  
+	while(itr.hasNext()) {  
 	System.out.println(itr.next());
 	  
 	  

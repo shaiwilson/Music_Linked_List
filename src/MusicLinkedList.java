@@ -1,4 +1,4 @@
-//import java.util.List;
+import java.util.List;
 import java.util.Iterator;
 
 public class MusicLinkedList implements MusicList
@@ -8,9 +8,9 @@ public class MusicLinkedList implements MusicList
 	/* Private Data Members -- Node                   */
 	/*----------------------------------------------------- */
 
-	private Node head = null;
-	private Node tail;
-	private int length;
+	Node head = null;
+	Node tail;
+	int length;
 	int numChannels = 0;
 	int numSamples = 0;
 	double sampleRate = 0;
@@ -80,8 +80,8 @@ public class MusicLinkedList implements MusicList
 	 * Returns the sample rate, in samples per second
 	 * @return The sample rate, in samples per second
 	 */
-	public float getSampleRate() {
-		return 0;
+	public double getSampleRate() {
+		return sampleRate;
 	}
 	
 	
@@ -175,12 +175,12 @@ public class MusicLinkedList implements MusicList
 	
 	public void addSample(float sample[]) {
 		
-		Node temp1 = new Node(sample[0], null, null);
+		Node temp1 = new Node(sample[0]);
 		Node temp2 = temp1;
 		
-			for (int  i = 0; i < numChannels; i++)
+			for (int  i = 1; i < numChannels; i++)
 			{
-				temp2.setNextChannel(new Node(sample[i], null, null));
+				temp2.setNextChannel(new Node(sample[i]));
 				temp2 = temp2.nextChannel();
 			}
 			if (head == null){
@@ -309,6 +309,12 @@ public class MusicLinkedList implements MusicList
 		/*----------------------------------------------------- */
 		/*  Access Methods -- Link                              */ 
 		/*----------------------------------------------------- */
+
+		public Node(float samples) {
+			this.samples = samples;
+			this.nextSample = null;
+			this.nextChannel = null;
+		}
 
 		public Node nextSample() {
 			return nextSample; 
