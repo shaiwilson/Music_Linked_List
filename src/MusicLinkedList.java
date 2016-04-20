@@ -114,6 +114,17 @@ public class MusicLinkedList implements MusicList
 	 * Reverse the SoundList.  
 	 */
 	public void reverse() {
+		
+//		if (head == null || head.nextChannel == null)
+//		{
+//			return head;
+//		}
+//		
+//		Node a = head;
+//		Node b = head.next;
+//		
+//		head.nextChannel();
+		
 	}
 	
 	/**
@@ -200,8 +211,8 @@ public class MusicLinkedList implements MusicList
 	
 	public Iterator<float[]> iterator() {
 		
-		return null;
-}
+		return new IteratorMutilC();
+	}
 	
 	/**
 	 * Return an iterator that traverses a single channel of the list
@@ -259,6 +270,13 @@ public class MusicLinkedList implements MusicList
 	 * @return The cloned SoundList
 	 */
 	public MusicList clone() {
+		Node curr = head;
+		
+		for(int i = 0; i < length; i++){
+			
+			Node newNode = new Node(curr.samples, null, null);
+		}
+		
 		return null;
 	}
 
@@ -287,8 +305,6 @@ public class MusicLinkedList implements MusicList
 			this.nextChannel = nextChannel;
 			
 		}
-//
-//		public Node(double d, int i) { }
 
 		/*----------------------------------------------------- */
 		/*  Access Methods -- Link                              */ 
@@ -323,8 +339,8 @@ public class MusicLinkedList implements MusicList
 		/*----------------------------------------------------- */
 
 		private Node current;
-		private Node temp;
-		private Node head;
+		private Node previous;
+		
 		
 		/*----------------------------------------------------- */
 		/*  Constructor -- InnerIterator                        */ 
@@ -333,17 +349,14 @@ public class MusicLinkedList implements MusicList
 		public InnerIterator(int index) 
 		{
 			
-			current = head;
-			if (current.nextChannel() != null)
-			{
+				current = head;
+			
 				for (int i = 0; i < index; i++)
 				{
 				
 					current = current.nextChannel();
-				}
 				
-				current = current.nextSample();
-			}
+				}
 			
 		}
 
@@ -355,16 +368,18 @@ public class MusicLinkedList implements MusicList
 		public Float next() 
 		{
 
-			temp = current;
+			previous = current;
 			current = current.nextSample();
-			return temp.samples;
+			return previous.samples;
 			
 		}
 
 		public boolean hasNext()
 		{
-			return temp != null && temp.nextSample != null;
+			return current != null;
 		}
+		
+	} // close inner iterator
 		
 		
 	public class IteratorMutilC implements Iterator<float []>{
@@ -402,17 +417,17 @@ public class MusicLinkedList implements MusicList
 					temp = temp.nextChannel();
 				}
 				
-				temp = current.nextSample();
+				current = current.nextSample();
 				return result_arr;
 			}
 
 			public boolean hasNext()
 			{
-				return temp != null && temp.nextSample != null;
+				return current != null && current.nextSample != null;
 			}
 			
 		}
 	}
-}
+
 
 
